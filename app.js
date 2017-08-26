@@ -1,6 +1,8 @@
 const express = require('express')
 const http = require('http')
 const apicache = require('apicache')
+const cors = require('cors')
+
 
 const app = express()
 let cache = apicache.middleware
@@ -22,6 +24,10 @@ const onlyStatus200 = (req, res) => res.statusCode === 200
 app.use(cache('2 minutes', onlyStatus200))
 
 app.use(express.static('public'))
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 
 // 获取专辑内容
 app.use('/album', require('./router/album'))
